@@ -13,7 +13,9 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.clock import Clock  # Kivy의 Clock을 이용해 딜레이 처리
 
 # 폰트 설정
-fontName = 'GowunBatang-Bold.ttf'
+fontName_Bold = 'GowunBatang-Bold.ttf'
+fontName_Regular = 'GowunBatang-Regular.ttf'
+
 
 # 기본 16:9 비율 설정 (예: 720x1280)
 target_aspect_ratio = 16 / 9
@@ -40,9 +42,11 @@ class ClickableLabel(ButtonBehavior, Label):
 
 
 class TextGameApp(App):
-    stat = {"컴퓨터기술":0,"체력":0,"운":0,"폭식":0,"지능":0,"타자":0}
+    stat = {"컴퓨터기술":0,"체력":0,"운":0,"폭식":0,"지능":0,"타자":0, "속독":0,"성적":100}
     main = True
     on_choice_able = False
+    day = 0
+    start = False
     def build(self):
         # 전체 레이아웃 (수직)
         self.main_layout = BoxLayout(orientation='vertical')
@@ -58,7 +62,7 @@ class TextGameApp(App):
             text="",  # 처음에는 빈 텍스트로 시작
             font_size=24,
             size_hint=(7 / 8, 1),  # 가로로 7/8 크기 설정
-            font_name=fontName,
+            font_name=fontName_Regular,
             text_size=(720 * 7 / 8, None),  # 텍스트 크기를 가로 7/8로 제한
             halign='left',  # 텍스트 왼쪽 정렬
             valign='top',  # 텍스트를 상단 정렬
@@ -72,8 +76,8 @@ class TextGameApp(App):
         self.right_layout = BoxLayout(orientation='vertical', size_hint=(1 / 8, 1))
 
         # 능력창 및 진척도창 버튼 추가, 크기 1/4로 줄임
-        self.ability_button = Button(text="능력창", font_name=fontName, size_hint=(1, 0.15))
-        self.progress_button = Button(text="진척도", font_name=fontName, size_hint=(1, 0.15))
+        self.ability_button = Button(text="능력창", font_name=fontName_Regular, size_hint=(1, 0.15))
+        self.progress_button = Button(text="진척도", font_name=fontName_Regular, size_hint=(1, 0.15))
 
         # 빈 공간을 검은색으로 설정
         self.black_space = ColoredBox(color=(0, 0, 0, 1), size_hint=(1, 0.5))
@@ -84,13 +88,13 @@ class TextGameApp(App):
         self.right_layout.add_widget(self.black_space)
 
         # 하단 선택지 영역 (수직으로 4개 선택지 배치)
-        self.choice_layout = BoxLayout(orientation='vertical', size_hint=(1, 1 / 6))
+        self.choice_layout = BoxLayout(orientation='vertical', size_hint=(1, 1 / 4))
 
         # 선택지 버튼들
-        self.choice1 = Button(font_name=fontName)
-        self.choice2 = Button(font_name=fontName)
-        self.choice3 = Button(font_name=fontName)
-        self.choice4 = Button(font_name=fontName)
+        self.choice1 = Button(font_name=fontName_Bold, background_normal='', background_down='', background_color=(0, 0, 0, 1))
+        self.choice2 = Button(font_name=fontName_Bold, background_normal='', background_down='', background_color=(0, 0, 0, 1))
+        self.choice3 = Button(font_name=fontName_Bold, background_normal='', background_down='', background_color=(0, 0, 0, 1))
+        self.choice4 = Button(font_name=fontName_Bold, background_normal='', background_down='', background_color=(0, 0, 0, 1))
 
         # 각 버튼에 이벤트 핸들러 연결
         self.choice1.bind(on_press=self.on_choice)
@@ -130,9 +134,10 @@ class TextGameApp(App):
         Window.bind(on_resize=self.adjust_layout)
 
         # 텍스트 파일 읽기
-        self.story_lines = self.read_story_text('main_story.txt').splitlines()
+        self.story_lines = self.read_story_text('start_story.txt').splitlines()
         self.current_line = 0
         self.is_waiting_for_click = False  # 클릭을 기다리는 상태 여부
+        self.start = True
 
         # 처음 자동으로 텍스트 출력 시작
         self.start_automatic_text()
@@ -156,13 +161,15 @@ class TextGameApp(App):
 
     # 텍스트 파일에서 내용을 읽어오는 함수
     def read_story_text(self, file_path):
+        print("오류확인 위치:read_story_text함수")
+        print(file_path)
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
                 return file.read()
         except FileNotFoundError:
             return "스토리 파일을 찾을 수 없습니다."
 
-    # 자동으로 텍스트를 출력하는 함수
+    # 자동으로 텍스트를 출력하는 함수 이벤트 분기 확인
     def start_automatic_text(self, dt=None):
         if self.current_line < len(self.story_lines): #전체 내용 탐색
             line = self.story_lines[self.current_line].strip() #한 줄씩 입력받음
@@ -175,7 +182,7 @@ class TextGameApp(App):
                 self.set_choices_from_story(self.current_line)
             elif line.startswith("#"):  # 첫 번째 글자가 #이면 다른 파일 읽기
                 self.main = False
-                self.load_alternate_story(self.current_line + 1)  # 현재 줄의 다음 줄부터 이어서 처리
+                self.load_alternate_story(self.current_line + 1)  # 세이브 텍스트 라인 설정 후 이벤트 스토리 진입
             else:
                 # 일반 텍스트는 출력 (한 줄씩)
                 self.text_area.text += line + "\n"
@@ -183,14 +190,42 @@ class TextGameApp(App):
 
                 # 다음 줄을 0.5초 후에 출력
                 Clock.schedule_once(self.start_automatic_text, 0.5)
-        elif not(self.main):
+        elif (self.start): #start스토리인 경우. 1회 실행
             self.story_lines = self.read_story_text('main_story.txt').splitlines()
+            self.current_line = 0
+            self.start = False
+            self.day += 1
+            print(self.stat)
+            self.text_area.text += f"{self.day}일차입니다.\n"
+            Clock.schedule_once(self.start_automatic_text, 0.5)
+        elif not(self.main): # 메인 스토리가 아니라면
+            self.story_lines = self.read_story_text('main_story.txt').splitlines() # 메인 스토리 호출
             self.current_line = self.saved_position + 1  # 저장된 위치로 돌아감
             Clock.schedule_once(self.start_automatic_text, 0.5)
             self.main = True
-        else :
-            print("start_automatic_text영역")
-            self.is_waiting_for_click = True  # 모든 텍스트가 끝났을 경우 클릭 대기
+        elif(self.day == 2): # 메인 스토리 루트가 3주차 진입 시
+            self.day += 1
+            self.story_lines = self.read_story_text('middle_story.txt').splitlines()
+            self.current_line = 0
+            Clock.schedule_once(self.start_automatic_text, 0.5)
+        elif(self.day<=3): # 메인 스토리 루틴
+            print("메인 스토리 루트 진입")
+            self.story_lines = self.read_story_text('main_story.txt').splitlines()
+            self.current_line = 0
+            self.day += 1
+            self.text_area.text += f"{self.day}일차입니다.\n"
+            Clock.schedule_once(self.start_automatic_text, 0.5)
+        elif(self.day == 4):
+            print("엔딩 스토리 진입")
+            self.story_lines = self.read_story_text('end_story.txt').splitlines()
+            self.current_line = 0
+            self.day += 1
+            Clock.schedule_once(self.start_automatic_text, 0.5)
+        elif(self.day == 5):
+            self.day += 1
+            self.load_ending_branch()
+        else:
+            exit(1)
 
     def set_choices_from_story(self, start_index):
         choices = []
@@ -252,6 +287,7 @@ class TextGameApp(App):
 
     # 텍스트 영역을 클릭하면 다음 텍스트 출력 시작
     def on_click_next_text(self, *args):
+        print("is_waiting_for_click : ", self.is_waiting_for_click)
         if self.is_waiting_for_click:
             self.is_waiting_for_click = False  # 클릭을 기다리는 상태를 해제
             self.text_area.text = ""  # 텍스트 영역 초기화
@@ -272,20 +308,18 @@ class TextGameApp(App):
 
     # 선택지 버튼을 눌렀을 때의 동작 정의
     def on_choice(self, instance):
-        if self.on_choice_able and self.choice1.text != "": #버튼 메세지 존재 시만 활성화
+        print(instance.text == "")
+        if self.on_choice_able and instance.text != "": #버튼 메세지 존재 시만 활성화
             print("버튼 활성화")
             # 선택된 버튼에 맞는 인덱스를 찾고 해당 조정값을 가져옴
+            self.select_text = instance.text
             if instance == self.choice1:
-                selected_choice_text = self.choice1.text
                 adjustment = self.adjustments[0]
             elif instance == self.choice2:
-                selected_choice_text = self.choice2.text
                 adjustment = self.adjustments[1]
             elif instance == self.choice3:
-                selected_choice_text = self.choice3.text
                 adjustment = self.adjustments[2]
             elif instance == self.choice4:
-                selected_choice_text = self.choice4.text
                 adjustment = self.adjustments[3]
             else:
                 selected_choice_text = ""
@@ -304,7 +338,8 @@ class TextGameApp(App):
 
             # 일단 선택한 내용을 출력 후 이어서 출력
             self.text_area.text = ""
-            self.text_area.text += f"[color=808080]{selected_choice_text}[/color]\n"
+            self.text_area.text += f"[color=808080]{self.select_text}[/color]\n"
+            self.clear_choices()
             self.current_line += 1
             self.on_choice_able = False
             self.start_automatic_text()
@@ -317,30 +352,32 @@ class TextGameApp(App):
 
     def load_alternate_story(self, saved_position):
         # a.txt 파일을 읽기 시작
+        print("오류발생구간?")
         self.story_lines = self.read_story_text(self.sub_event_story()).splitlines()
         self.current_line = 0  # 새로운 파일의 첫 번째 줄부터 시작
-
         # 스토리가 끝났을 때 다시 main_story.txt로 돌아감
         self.saved_position = saved_position
-        Clock.schedule_once(self.check_alternate_story_end, 0.5)
-
-    def check_alternate_story_end(self, dt=None):
-        self.start_automatic_text()
-        if self.current_line >= len(self.story_lines):  # a.txt를 다 읽었을 경우
-            # 다시 main_story.txt를 읽고 저장된 위치로 돌아감
-            self.story_lines = self.read_story_text('main_story.txt').splitlines()
-            self.current_line = self.saved_position + 1  # 저장된 위치로 돌아감
-            self.text_area.text = ""
-            self.start_automatic_text()
-        else:
-            self.start_automatic_text()
+        Clock.schedule_once(self.start_automatic_text, 0.5)
 
     def sub_event_story(self):
+        print("진입확인")
         sub_event_list = ["a.txt", "b.txt", "c.txt", "d.txt", "e.txt"]
         num = random.randint(0, 4)
         return sub_event_list[num]
 
+    def load_ending_branch(self):
+        self.story_lines = self.read_story_text(self.ending_branch_story()).splitlines()
+        self.current_line = 0  # 새로운 파일의 첫 번째 줄부터 시작
+        print(self.stat)
+        Clock.schedule_once(self.start_automatic_text, 0.5)
 
+    def ending_branch_story(self):
+        if self.stat["성적"]>90:
+            return "hidden_end.txt"
+        elif self.stat["성적"]>80:
+            return "normal_end.txt"
+        else:
+            return "bad_end.txt"
 
 if __name__ == '__main__':
     TextGameApp().run()

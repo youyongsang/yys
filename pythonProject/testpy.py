@@ -40,7 +40,6 @@ class ColoredBox(Widget):
 class ClickableLabel(ButtonBehavior, Label):
     pass
 
-
 class TextGameApp(App):
     stat = {"컴퓨터기술":0,"체력":0,"운":0,"폭식":0,"지능":0,"타자":0, "속독":0,"성적":100}
     main = True
@@ -239,14 +238,20 @@ class TextGameApp(App):
             if line.startswith("-"):
                 choice_text = line[1:].strip()  # `-` 기호를 제거한 선택지 텍스트
 
-                # 선택지 텍스트에서 `%`나 `&` 이후의 능력치 조정 정보 추출
-                if "%" in choice_text or "&" in choice_text:
-                    choice, adjustment = self.parse_choice_adjustment(choice_text)
-                    choices.append(choice)
+                # 조건문이 포함된 경우 처리
+                if ":" in choice_text and "?" in choice_text:
+                    choice_text, adjustment = self.parse_conditional_choice(choice_text)
+                    choices.append(choice_text)
                     adjustments.append(adjustment)
                 else:
-                    choices.append(choice_text)
-                    adjustments.append(None)  # 조정 정보가 없는 경우
+                    # 기존 방식으로 `%`나 `&` 이후의 능력치 조정 정보 추출
+                    if "%" in choice_text or "&" in choice_text:
+                        choice, adjustment = self.parse_choice_adjustment(choice_text)
+                        choices.append(choice)
+                        adjustments.append(adjustment)
+                    else:
+                        choices.append(choice_text)
+                        adjustments.append(None)  # 조정 정보가 없는 경우
             else:
                 break  # `-`로 시작하지 않으면 종료
 
@@ -268,6 +273,40 @@ class TextGameApp(App):
         # 선택지 이후의 줄을 스토리 출력 시작 위치로 설정
         self.current_line = start_index  # 선택지 이후의 첫 번째 줄로 이동
 
+    def parse_conditional_choice(self, choice_text):
+        # ':'와 '?'로 조건문을 나누기
+        main_part, conditional_part = choice_text.split(":", 1)
+        condition, else_part = conditional_part.split("?", 1)
+
+        # 조건문 해석
+        stat_name = ''.join([char for char in condition if char.isalpha()])
+        stat_value = int(''.join([char for char in condition if char.isdigit()]))
+        operator = ''.join([char for char in condition if not char.isalnum()])
+
+        # stat 딕셔너리에서 현재 능력치를 확인
+        current_stat_value = self.stat.get(stat_name, 0)
+
+        # 조건 비교
+        if self.evaluate_condition(current_stat_value, stat_value, operator):
+            # 조건이 참이면 main_part를 선택지 텍스트로 사용하고 조정값 추출
+            return self.extract_choice_and_adjustment(main_part)
+        else:
+            # 조건이 거짓이면 else_part를 선택지 텍스트로 사용하고 조정값 추출
+            return self.extract_choice_and_adjustment(else_part)
+
+    def evaluate_condition(self, current_value, target_value, operator):
+        if operator == ">=":
+            return current_value >= target_value
+        elif operator == "<=":
+            return current_value <= target_value
+        elif operator == "=":
+            return current_value == target_value
+        elif operator == ">":
+            return current_value > target_value
+        elif operator == "<":
+            return current_value < target_value
+        return False  # 정의되지 않은 연산자일 경우 False 반환
+
     def parse_choice_adjustment(self, choice_text):
         # `%` 또는 `&` 기호로 구분하여 능력치 정보를 추출
         if "%" in choice_text:
@@ -284,6 +323,13 @@ class TextGameApp(App):
         stat_value = int(''.join([char for char in adjustment if char.isdigit()]))
 
         return choice.strip(), (stat_name, stat_value, operation)
+
+    def extract_choice_and_adjustment(self, text):
+        if "%" in text or "&" in text:
+            choice, adjustment = self.parse_choice_adjustment(text)
+            return choice, adjustment
+        else:
+            return text, None  # 능력치 조정이 없는 경우
 
     # 텍스트 영역을 클릭하면 다음 텍스트 출력 시작
     def on_click_next_text(self, *args):
@@ -310,7 +356,6 @@ class TextGameApp(App):
     def on_choice(self, instance):
         print(instance.text == "")
         if self.on_choice_able and instance.text != "": #버튼 메세지 존재 시만 활성화
-            print("버튼 활성화")
             # 선택된 버튼에 맞는 인덱스를 찾고 해당 조정값을 가져옴
             self.select_text = instance.text
             if instance == self.choice1:

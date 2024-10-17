@@ -11,6 +11,8 @@ from kivy.core.window import Window
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.clock import Clock  # Kivy의 Clock을 이용해 딜레이 처리
+from typing import Tuple, Any
+import re
 
 # 폰트 설정
 fontName_Bold = 'GowunBatang-Bold.ttf'
@@ -160,8 +162,6 @@ class TextGameApp(App):
 
     # 텍스트 파일에서 내용을 읽어오는 함수
     def read_story_text(self, file_path):
-        print("오류확인 위치:read_story_text함수")
-        print(file_path)
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
                 return file.read()
@@ -173,7 +173,6 @@ class TextGameApp(App):
         if self.current_line < len(self.story_lines): #전체 내용 탐색
             line = self.story_lines[self.current_line].strip() #한 줄씩 입력받음
             if line == "":  # 빈 줄일 경우 클릭 대기
-                print("클릭대기상태")
                 self.is_waiting_for_click = True #True일 경우 텍스트 화면 클릭시 다음 줄 텍스트가 출력됨
             elif line.startswith("-"):  # 선택지 항목이면 버튼 텍스트로 설정하고 넘김
                 self.is_waiting_for_click = False
@@ -194,7 +193,6 @@ class TextGameApp(App):
             self.current_line = 0
             self.start = False
             self.day += 1
-            print(self.stat)
             self.text_area.text += f"{self.day}일차입니다.\n"
             Clock.schedule_once(self.start_automatic_text, 0.5)
         elif not(self.main): # 메인 스토리가 아니라면
@@ -208,14 +206,12 @@ class TextGameApp(App):
             self.current_line = 0
             Clock.schedule_once(self.start_automatic_text, 0.5)
         elif(self.day<=3): # 메인 스토리 루틴
-            print("메인 스토리 루트 진입")
             self.story_lines = self.read_story_text('main_story.txt').splitlines()
             self.current_line = 0
             self.day += 1
             self.text_area.text += f"{self.day}일차입니다.\n"
             Clock.schedule_once(self.start_automatic_text, 0.5)
         elif(self.day == 4):
-            print("엔딩 스토리 진입")
             self.story_lines = self.read_story_text('end_story.txt').splitlines()
             self.current_line = 0
             self.day += 1
@@ -242,7 +238,7 @@ class TextGameApp(App):
                 if ":" in choice_text and "?" in choice_text:
                     choice_text, adjustment = self.parse_conditional_choice(choice_text)
                     choices.append(choice_text)
-                    adjustments.append(adjustment)
+                    adjustments.append(adjustment) #(stat_name, stat_value, operation) 형식의 튜플이 들어감
                 else:
                     # 기존 방식으로 `%`나 `&` 이후의 능력치 조정 정보 추출
                     if "%" in choice_text or "&" in choice_text:
@@ -250,6 +246,7 @@ class TextGameApp(App):
                         choices.append(choice)
                         adjustments.append(adjustment)
                     else:
+                        # 능력치 조정이 없는 선택지 처리
                         choices.append(choice_text)
                         adjustments.append(None)  # 조정 정보가 없는 경우
             else:
@@ -275,16 +272,17 @@ class TextGameApp(App):
 
     def parse_conditional_choice(self, choice_text):
         # ':'와 '?'로 조건문을 나누기
-        main_part, conditional_part = choice_text.split(":", 1)
-        condition, else_part = conditional_part.split("?", 1)
+        main_part, conditional_part = choice_text.split(":", 1)#분할 횟수 1 참일 때 실행 문장과 나머지로 이루어짐
+        condition, else_part = conditional_part.split("?", 1)#분할 횟수 1 조건문과 거짓일 때 실행 문장으로 이루어짐
+
 
         # 조건문 해석
-        stat_name = ''.join([char for char in condition if char.isalpha()])
-        stat_value = int(''.join([char for char in condition if char.isdigit()]))
-        operator = ''.join([char for char in condition if not char.isalnum()])
+        stat_name = ''.join([char for char in condition if char.isalpha()]) #영어 또는 한글만 출력 (변경 스탯)
+        stat_value = int(''.join([char for char in condition if char.isdigit()])) #숫자만 출력 (변경값)
+        operator = ''.join([char for char in condition if not char.isalnum()]) #영어 또는 한글이 아닌 특수문자인 경우만 출력 (조건문부등호)
 
         # stat 딕셔너리에서 현재 능력치를 확인
-        current_stat_value = self.stat.get(stat_name, 0)
+        current_stat_value = self.stat.get(stat_name, 0) #키가 존재하지 않을 경우 0을 반환 (0대신 None넣어도 될듯)
 
         # 조건 비교
         if self.evaluate_condition(current_stat_value, stat_value, operator):
@@ -294,6 +292,7 @@ class TextGameApp(App):
             # 조건이 거짓이면 else_part를 선택지 텍스트로 사용하고 조정값 추출
             return self.extract_choice_and_adjustment(else_part)
 
+    #텍스트 파일의 조건문에 대한 판별 함수
     def evaluate_condition(self, current_value, target_value, operator):
         if operator == ">=":
             return current_value >= target_value
@@ -307,29 +306,48 @@ class TextGameApp(App):
             return current_value < target_value
         return False  # 정의되지 않은 연산자일 경우 False 반환
 
-    def parse_choice_adjustment(self, choice_text):
-        # `%` 또는 `&` 기호로 구분하여 능력치 정보를 추출
-        if "%" in choice_text:
-            choice, adjustment = choice_text.split("%", 1)
-            operation = "+"
-        elif "&" in choice_text:
-            choice, adjustment = choice_text.split("&", 1)
-            operation = "-"
-        else:
-            return choice_text, None
-
-        # adjustment 문자열에서 능력치 항목과 조정값을 추출
-        stat_name = ''.join([char for char in adjustment if char.isalpha()])
-        stat_value = int(''.join([char for char in adjustment if char.isdigit()]))
-
-        return choice.strip(), (stat_name, stat_value, operation)
-
+    #선택지 텍스트 내용과 능력치 조정 내용을 구분하는 함수
     def extract_choice_and_adjustment(self, text):
-        if "%" in text or "&" in text:
-            choice, adjustment = self.parse_choice_adjustment(text)
+        if "%" in text or "&" in text: #수행 문장에 능력치 조정이 있는 지 판단
+            choice, adjustment = self.parse_choice_adjustment(text) #있을 경우 능력치 조정
             return choice, adjustment
         else:
-            return text, None  # 능력치 조정이 없는 경우
+            return text, None  # 능력치 조정이 없는 경우 텍스트만 반환
+
+    def parse_choice_adjustment(self, choice_text):
+        """
+        텍스트에서 여러 능력치 조정을 처리하는 함수
+        예: %지능1&체력1 또는 &지능1%체력1 혼합 형태도 처리 가능
+        """
+        adjustments = []  # 여러 능력치 조정을 담을 리스트
+
+        # 능력치 조정 전의 선택지 텍스트
+        choice_part = re.split("[%&]", choice_text)[0].strip()
+
+        # 조정치 부분만 추출하기 (%, & 기준으로 split)
+        adjustment_parts = re.findall(r'[%&][가-힣0-9]+', choice_text)
+        #%나 &로 시작하는 단어들 구분 추출 ex &지능1%속독1인경우 &나 %을 기준으로 나눠져서 ['&지능1','%속독1']이 된다.
+
+        for part in adjustment_parts:
+            sign = '+' if part[0] == '%' else '-'  # %면 +, &면 - (상황에 맞게 변경 가능)
+            adjustments.append(self.extract_stat_adjustment(part[1:], sign)) #part[1:]조정 속성(&%)을 제외한 나머지 문장
+
+        return choice_part, adjustments
+
+    def extract_stat_adjustment(self, adjustment_text: str, operation: str) -> Tuple[str, int, str]:
+        """
+        주어진 능력치 조정 텍스트에서 능력치 이름과 값을 추출하고 조정 정보 반환
+        """
+        # 능력치 이름만 추출 (한글 또는 영어 알파벳만 사용)
+        stat_name = ''.join([char for char in adjustment_text if char.isalpha()])
+
+        # 능력치 값만 추출
+        stat_value = ''.join([char for char in adjustment_text if char.isdigit()])
+
+        # 값이 없을 경우 기본값 0 설정
+        stat_value = int(stat_value) if stat_value else 0 #문자형으로 받았으니 int형 변경
+
+        return (stat_name, stat_value, operation)
 
     # 텍스트 영역을 클릭하면 다음 텍스트 출력 시작
     def on_click_next_text(self, *args):
@@ -354,40 +372,49 @@ class TextGameApp(App):
 
     # 선택지 버튼을 눌렀을 때의 동작 정의
     def on_choice(self, instance):
-        print(instance.text == "")
-        if self.on_choice_able and instance.text != "": #버튼 메세지 존재 시만 활성화
+
+        if self.on_choice_able and instance.text != "":
             # 선택된 버튼에 맞는 인덱스를 찾고 해당 조정값을 가져옴
             self.select_text = instance.text
             if instance == self.choice1:
-                adjustment = self.adjustments[0]
+                adjustments = self.adjustments[0] #(stat_name, stat_value, operation) 각 형태을 인자로 가진 배열
             elif instance == self.choice2:
-                adjustment = self.adjustments[1]
+                adjustments = self.adjustments[1]
             elif instance == self.choice3:
-                adjustment = self.adjustments[2]
+                adjustments = self.adjustments[2]
             elif instance == self.choice4:
-                adjustment = self.adjustments[3]
+                adjustments = self.adjustments[3]
             else:
-                selected_choice_text = ""
-                adjustment = None
+                adjustments = []  # 빈 리스트로 초기화
 
-            # 선택지 출력 후 능력치 조정
-            if adjustment:
-                stat_name, stat_value, operation = adjustment
-                if operation == "+":
-                    self.stat[stat_name] += stat_value
-                elif operation == "-":
-                    self.stat[stat_name] -= stat_value
+            # None일 경우 빈 리스트로 처리
+            if adjustments is None:
+                adjustments = []
+
+            # 여러 능력치 조정 처리
+            for adjustment in adjustments:
+                if adjustment:
+                    stat_name, stat_value, operation = adjustment
+                    if stat_name in self.stat:  # stat 딕셔너리에서 해당 능력치 확인
+                        if operation == "+":
+                            self.stat[stat_name] += stat_value
+                        elif operation == "-" and self.stat[stat_name] >= 1:
+                            self.stat[stat_name] -= stat_value
+                        print(f"{stat_name} 능력치가 {operation}{stat_value}만큼 조정되었습니다.")
+                    else:
+                        print(f"경고: {stat_name} 능력치는 존재하지 않습니다.")
 
             # 선택지 버튼 텍스트 초기화 (선택 후)
             self.clear_choices()
 
-            # 일단 선택한 내용을 출력 후 이어서 출력
+            # 선택한 내용을 출력 후 이어서 출력
             self.text_area.text = ""
             self.text_area.text += f"[color=808080]{self.select_text}[/color]\n"
             self.clear_choices()
             self.current_line += 1
             self.on_choice_able = False
             self.start_automatic_text()
+            print(self.stat)
 
     def clear_choices(self):
         self.choice1.text = ""

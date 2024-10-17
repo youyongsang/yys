@@ -48,6 +48,14 @@ class TextGameApp(App):
     on_choice_able = False
     day = 0
     start = False
+    reaction_part = False
+    choice = 0
+    reaction_line = ""
+    file_name = ""
+    flag = True #리액션 텍스트를 통한 start_automatic_text 실행 구분
+                #플래그를 통해서 리액션 부분만 출력 가능
+    save_file_name = "" #리액션 텍스트 돌입 시 이전에 읽었던 텍스트 파일의 이름을 저장
+    saved_re_position = ""
     def build(self):
         # 전체 레이아웃 (수직)
         self.main_layout = BoxLayout(orientation='vertical')
@@ -164,6 +172,7 @@ class TextGameApp(App):
     def read_story_text(self, file_path):
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
+                self.file_name = file.name
                 return file.read()
         except FileNotFoundError:
             return "스토리 파일을 찾을 수 없습니다."
@@ -172,23 +181,49 @@ class TextGameApp(App):
     def start_automatic_text(self, dt=None):
         if self.current_line < len(self.story_lines): #전체 내용 탐색
             line = self.story_lines[self.current_line].strip() #한 줄씩 입력받음
-            if line == "":  # 빈 줄일 경우 클릭 대기
-                self.is_waiting_for_click = True #True일 경우 텍스트 화면 클릭시 다음 줄 텍스트가 출력됨
-            elif line.startswith("-"):  # 선택지 항목이면 버튼 텍스트로 설정하고 넘김
-                self.is_waiting_for_click = False
-                self.on_choice_able = True
-                self.set_choices_from_story(self.current_line)
-            elif line.startswith("#"):  # 첫 번째 글자가 #이면 다른 파일 읽기
-                self.main = False
-                self.load_alternate_story(self.current_line + 1)  # 세이브 텍스트 라인 설정 후 이벤트 스토리 진입
-            else:
-                # 일반 텍스트는 출력 (한 줄씩)
-                self.text_area.text += line + "\n"
-                self.current_line += 1
 
-                # 다음 줄을 0.5초 후에 출력
-                Clock.schedule_once(self.start_automatic_text, 0.5)
-        elif (self.start): #start스토리인 경우. 1회 실행
+            print(self.file_name, self.current_line)
+            if self.reaction_part: #리액션 파트에 돌입했을 경우
+                print("리액션 부분")
+                if line.startswith("#") and line == self.reaction_line: #내가 원하는 리액션 파트 진입
+                    print("내가 원하는 리액션 파트 진입 성공")
+                    self.flag = True #텍스트 출력 활성화
+                    self.current_line += 1  # 다음 줄 탐색
+                    print("리액션 파트 진입 성공 이후 현재 라인 숫자", self.current_line)
+                    line = self.story_lines[self.current_line].strip()
+                elif not(self.flag): #내가 원하는 리액션 파트가 아닌 경우
+                    self.current_line += 1 #다음 줄 탐색
+                    Clock.schedule_once(self.start_automatic_text, 0.01)
+            if self.flag:
+                if line == "":  # 빈 줄일 경우 클릭 대기
+                    self.is_waiting_for_click = True #True일 경우 텍스트 화면 클릭시 다음 줄 텍스트가 출력됨
+                elif line.startswith("-"):  # 선택지 항목이면 버튼 텍스트로 설정하고 넘김
+                    self.is_waiting_for_click = False
+                    self.on_choice_able = True
+                    self.set_choices_from_story(self.current_line)
+                elif line.startswith("#") and not self.reaction_part:  # 첫 번째 글자가 #일때 리액션 파트는 아닐 경우
+                    print("랜덤 이벤트 스토리 진입 성공")
+                    self.main = False
+                    self.reaction_line = line
+                    self.load_alternate_story(self.current_line + 1, line)  # 세이브 텍스트 라인 설정 후 이벤트 스토리 or 리액션 파트 진입
+                elif line.startswith("#") and line != self.reaction_line: #해당 리액션 파트 출력이 끝났을 경우
+                    self.reaction_part = False
+                    self.story_lines = self.read_story_text(self.save_file_name).splitlines()  # 이전 스토리 파일 호출
+                    self.current_line = self.saved_re_position + 1  # 저장된 위치로 돌아감
+                    self.is_waiting_for_click = True
+                else:
+                    # 일반 텍스트는 출력 (한 줄씩)
+                    self.text_area.text += line + "\n"
+                    self.current_line += 1
+
+                    # 다음 줄을 0.5초 후에 출력
+                    Clock.schedule_once(self.start_automatic_text, 0.5)
+        elif self.reaction_part: #리액션 텍스트에서 출력을 모두 마쳤을 경우 -> 기존 텍스트 파일로 돌아가야함
+            self.story_lines = self.read_story_text(self.save_file_name).splitlines()  # 기존 텍스트 파일 호출
+            self.current_line = self.saved_re_position + 1  # 저장된 위치로 돌아감
+            self.reaction_part = False
+            Clock.schedule_once(self.start_automatic_text, 0.5)
+        elif (self.start): #종료 텍스트 파일이 start스토리인 경우. 1회 실행
             self.story_lines = self.read_story_text('main_story.txt').splitlines()
             self.current_line = 0
             self.start = False
@@ -378,12 +413,16 @@ class TextGameApp(App):
             self.select_text = instance.text
             if instance == self.choice1:
                 adjustments = self.adjustments[0] #(stat_name, stat_value, operation) 각 형태을 인자로 가진 배열
+                self.choice = 0
             elif instance == self.choice2:
                 adjustments = self.adjustments[1]
+                self.choice = 1
             elif instance == self.choice3:
                 adjustments = self.adjustments[2]
+                self.choice = 2
             elif instance == self.choice4:
                 adjustments = self.adjustments[3]
+                self.choice = 3
             else:
                 adjustments = []  # 빈 리스트로 초기화
 
@@ -422,20 +461,35 @@ class TextGameApp(App):
         self.choice3.text = ""
         self.choice4.text = ""
 
-    def load_alternate_story(self, saved_position):
-        # a.txt 파일을 읽기 시작
-        print("오류발생구간?")
-        self.story_lines = self.read_story_text(self.sub_event_story()).splitlines()
-        self.current_line = 0  # 새로운 파일의 첫 번째 줄부터 시작
-        # 스토리가 끝났을 때 다시 main_story.txt로 돌아감
-        self.saved_position = saved_position
-        Clock.schedule_once(self.start_automatic_text, 0.5)
+    def load_alternate_story(self, saved_position, line):
+        if line == "#":
+            # a.txt 파일을 읽기 시작
+            self.story_lines = self.read_story_text(self.sub_event_story()).splitlines()
+            self.current_line = 0  # 새로운 파일의 첫 번째 줄부터 시작
+            # 스토리가 끝났을 때 다시 main_story.txt로 돌아감
+            self.saved_position = saved_position
+            Clock.schedule_once(self.start_automatic_text, 0.5)
+        else :
+            self.save_file_name = self.file_name #리액션 텍스트에 돌입하기 전 기존 텍스트 파일의 이름을 저장
+            print("저장된 파일 이름", self.save_file_name)
+            self.story_lines = self.read_story_text(self.reaction_text()).splitlines()
+            self.current_line = 0  # 새로운 파일의 첫 번째 줄부터 시작
+            # 스토리가 끝났을 때 이전 파일로 돌아감
+            self.saved_re_position = saved_position
+            self.reaction_part = True #리액션 파일 진입 확인 변수
+            self.flag = False #리액션 파일에 내가 원하는 부분이 나오기 전까지 자동 텍스트 출력 패스
+            Clock.schedule_once(self.start_automatic_text, 0.5)
 
     def sub_event_story(self):
         print("진입확인")
         sub_event_list = ["a.txt", "b.txt", "c.txt", "d.txt", "e.txt"]
         num = random.randint(0, 4)
         return sub_event_list[num]
+
+    def reaction_text(self):
+        print("리액션 진입")
+        reaction_list = ["reaction_a.txt", "reaction_b.txt", "reaction_c.txt", "reaction_d.txt"]
+        return reaction_list[self.choice]
 
     def load_ending_branch(self):
         self.story_lines = self.read_story_text(self.ending_branch_story()).splitlines()

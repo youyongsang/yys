@@ -38,8 +38,10 @@ class ColoredBox(Widget):
 class ClickableLabel(ButtonBehavior, Label):
     pass
 
+
+
 class GameScreen(Screen):
-    ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "폭식": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈" : 3, "집중도" : 3, "멘탈" : 3}
+    ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3}
     main = True
     on_choice_able = False
     day = 0
@@ -48,13 +50,14 @@ class GameScreen(Screen):
     choice = 0
     reaction_line = ""
     file_name = ""
-    flag = True  # 리액션 텍스트를 통한 start_automatic_text 실행 구분
-    # 플래그를 통해서 리액션 부분만 출력 가능
-    save_file_name = ""  # 리액션 텍스트 돌입 시 이전에 읽었던 텍스트 파일의 이름을 저장
+    flag = True
+    save_file_name = ""
     saved_re_position = ""
+    previous_name = "mainmenu"
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.build()  # 초기화 시 build 메서드를 호출하여 레이아웃을 설정
 
     def build(self):
         print("빌드 실행")
@@ -66,14 +69,14 @@ class GameScreen(Screen):
 
         # 텍스트 영역 (가로로 7/8)
         self.text_area = ClickableLabel(
-            text="",  # 처음에는 빈 텍스트로 시작
+            text="",
             font_size=24,
-            size_hint=(7 / 8, 1),  # 가로로 7/8 크기 설정
+            size_hint=(7 / 8, 1),
             font_name=fontName_Regular,
-            text_size=(720 * 7 / 8, None),  # 텍스트 크기를 가로 7/8로 제한
-            halign='left',  # 텍스트 왼쪽 정렬
-            valign='top',  # 텍스트를 상단 정렬
-            markup=True,  # 마크업 활성화
+            text_size=(720 * 7 / 8, None),
+            halign='left',
+            valign='top',
+            markup=True,
         )
 
         # 텍스트 영역 클릭 시 다음 줄로 이동
@@ -147,14 +150,8 @@ class GameScreen(Screen):
 
         self.add_widget(self.main_layout)
         self.update_stat_images()
-        # 텍스트 파일 읽기
-        self.story_lines = self.read_story_text('start_story.txt').splitlines()
-        self.reset_game()
 
-        # 처음 자동으로 텍스트 출력 시작
-        self.start_automatic_text()
-
-    def reset_game(self):  #게임을 다시 시작했을 때 변수값을 초기화하는 메소드
+    def reset_game(self):
         """ 게임 상태를 초기화하는 메서드 """
         self.current_line = 0
         self.day = 0
@@ -163,20 +160,22 @@ class GameScreen(Screen):
         self.reaction_part = False
         self.choice = 0
         self.reaction_line = ""
-        self.file_name = ""
+        self.file_name = "start_story.txt"
         self.flag = True
         self.save_file_name = ""
         self.saved_re_position = ""
         self.is_waiting_for_click = False
         self.text_area.text = ""
-        self.ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "폭식": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈" : 3, "집중도" : 3, "멘탈" : 3}
+        self.ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3}
         self.update_stat_images()
+        self.story_lines = self.read_story_text('start_story.txt').splitlines()
+        self.start_automatic_text()
 
     def on_enter(self):
         # GameScreen에 들어왔을 때 텍스트 출력을 시작합니다.
-        self.clear_widgets()
-        self.build()
         print("on enter 실행")
+        if self.previous_name == "mainmenu":
+            self.reset_game()
 
     # 윈도우 크기가 변경될 때 비율 조정
     def adjust_layout(self, instance, width, height):
@@ -238,6 +237,7 @@ class GameScreen(Screen):
             if self.reaction_part:  # 리액션 파트에 돌입했을 경우
                 if line.startswith("#") and line == self.reaction_line:  # 내가 원하는 리액션 파트 진입
                     print("내가 원하는 리액션 파트 진입 성공")
+
                     self.flag = True  # 텍스트 출력 활성화
                     self.current_line += 1  # 다음 줄 탐색
                     line = self.story_lines[self.current_line].strip()
@@ -253,11 +253,11 @@ class GameScreen(Screen):
                     self.on_choice_able = True
                     self.set_choices_from_story(self.current_line)
                 elif line.startswith("#") and not self.reaction_part:  # 첫 번째 글자가 #일때 리액션 파트는 아닐 경우
-                    print("랜덤 이벤트 스토리 진입 성공")
+                    print("랜덤 이벤트 OR 리액션 파트 진입 성공")
                     self.main = False
                     self.reaction_line = line
                     self.load_alternate_story(self.current_line + 1, line)  # 세이브 텍스트 라인 설정 후 이벤트 스토리 or 리액션 파트 진입
-                elif line.startswith("#") and line != self.reaction_line:  # 해당 리액션 파트 출력이 끝났을 경우
+                elif line.startswith("#") and line != self.reaction_line or line == "pass": # 해당 리액션 파트 출력이 끝났을 경우
                     print("리액션 파트 종료")
 
                     self.reaction_part = False
@@ -341,6 +341,8 @@ class GameScreen(Screen):
                 break  # `-`로 시작하지 않으면 종료
 
             start_index += 1
+        choices.reverse()
+        adjustments.reverse()
 
         # 선택지 버튼 텍스트 설정
         if len(choices) >= 1:
@@ -513,7 +515,6 @@ class GameScreen(Screen):
 
     def load_alternate_story(self, saved_position, line):
         if line == "#":
-            # a.txt 파일을 읽기 시작
             self.story_lines = self.read_story_text(self.sub_event_story()).splitlines()
             self.current_line = 0  # 새로운 파일의 첫 번째 줄부터 시작
             # 스토리가 끝났을 때 다시 main_story.txt로 돌아감
@@ -531,13 +532,13 @@ class GameScreen(Screen):
             Clock.schedule_once(self.start_automatic_text, 0.5)
 
     def sub_event_story(self):
-        print("진입확인")
         sub_event_list = ["a.txt", "b.txt", "c.txt", "d.txt", "e.txt"]
         num = random.randint(0, 4)
+        print("진입확인", num)
         return "./event_story/" + sub_event_list[num]
 
     def reaction_text(self):
-        print("리액션 진입")
+        print("리액션 진입", self.choice)
         reaction_list = ["reaction_a.txt", "reaction_b.txt", "reaction_c.txt", "reaction_d.txt"]
         return "./reaction/"+reaction_list[self.choice]
 
@@ -556,5 +557,6 @@ class GameScreen(Screen):
             return "./ending_part/bad_end.txt"
 
     def end_game(self):
+        self.privious_name = "mainmenu"
         app = App.get_running_app()
         app.game_ending('BAD')

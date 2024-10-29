@@ -13,6 +13,7 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.clock import Clock  # Kivy의 Clock을 이용해 딜레이 처리
 from typing import Tuple, Any
+from kivy.uix.image import Image
 import re
 
 fontName_Bold = 'GowunBatang-Bold.ttf'
@@ -38,7 +39,7 @@ class ClickableLabel(ButtonBehavior, Label):
     pass
 
 class GameScreen(Screen):
-    stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "폭식": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100}
+    ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "폭식": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈" : 3, "집중도" : 3, "멘탈" : 3}
     main = True
     on_choice_able = False
     day = 0
@@ -59,9 +60,6 @@ class GameScreen(Screen):
         print("빌드 실행")
         # 전체 레이아웃 (수직)
         self.main_layout = BoxLayout(orientation='vertical')
-
-        # 상단에 빨간색 공간 추가 (세로로 1/10)
-        self.red_space = ColoredBox(color=(1, 0, 0, 1), size_hint=(1, 1 / 10))
 
         # 가운데 부분의 레이아웃 (가로로 나눔)
         self.middle_layout = BoxLayout(orientation='horizontal', size_hint=(1, 6 / 7))
@@ -94,6 +92,8 @@ class GameScreen(Screen):
         # 오른쪽 레이아웃에 버튼과 빈 공간 추가 (버튼은 상단 정렬)
         self.right_layout.add_widget(self.ability_button)
         self.right_layout.add_widget(self.progress_button)
+        self.stat_image_layout = BoxLayout(orientation='vertical', size_hint=(1, 0.4))
+        self.right_layout.add_widget(self.stat_image_layout)
         self.right_layout.add_widget(self.black_space)
 
         # 하단 선택지 영역 (수직으로 4개 선택지 배치)
@@ -138,8 +138,7 @@ class GameScreen(Screen):
         self.middle_layout.add_widget(self.text_area)  # 텍스트 영역 (7/8)
         self.middle_layout.add_widget(self.right_layout)  # 오른쪽 능력창, 진척도창, 검은색 공간 (1/8)
 
-        # 메인 레이아웃에 빨간색 공간, 가운데 레이아웃, 선택지 영역 순서대로 추가
-        self.main_layout.add_widget(self.red_space)  # 빨간색 공간
+        # 메인 레이아웃에 가운데 레이아웃, 선택지 영역 순서대로 추가
         self.main_layout.add_widget(self.middle_layout)  # 가운데 레이아웃 (텍스트 + 오른쪽 버튼 및 빈 공간)
         self.main_layout.add_widget(self.choice_layout)  # 선택지 영역
 
@@ -147,6 +146,7 @@ class GameScreen(Screen):
         Window.bind(on_resize=self.adjust_layout)
 
         self.add_widget(self.main_layout)
+        self.update_stat_images()
         # 텍스트 파일 읽기
         self.story_lines = self.read_story_text('start_story.txt').splitlines()
         self.reset_game()
@@ -169,7 +169,8 @@ class GameScreen(Screen):
         self.saved_re_position = ""
         self.is_waiting_for_click = False
         self.text_area.text = ""
-        self.stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "폭식": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100}
+        self.ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "폭식": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈" : 3, "집중도" : 3, "멘탈" : 3}
+        self.update_stat_images()
 
     def on_enter(self):
         # GameScreen에 들어왔을 때 텍스트 출력을 시작합니다.
@@ -192,6 +193,32 @@ class GameScreen(Screen):
             self.choice1.font_size = 22
             self.choice2.font_size = 22
             self.choice3.font_size = 22
+
+    def update_stat_images(self):
+        """ 스탯 값에 따라 이미지를 갱신하는 함수 """
+        # 기존 이미지 제거
+        self.stat_image_layout.clear_widgets()
+
+        # '돈'에 해당하는 돈 이미지
+        money_stat = self.ability_stat.get('돈', 0)
+        money_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=50)
+        for _ in range(money_stat):
+            money_layout.add_widget(Image(source='./public/image/icon/money.png'))  # 돈 이미지 경로 설정
+        self.stat_image_layout.add_widget(money_layout)
+
+        # '집중도'에 해당하는 세모 이미지
+        focus_stat = self.ability_stat.get('집중도', 0)
+        focus_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=50)
+        for _ in range(focus_stat):
+            focus_layout.add_widget(Image(source='./public/image/icon/pen.png'))  # 연필 이미지 경로 설정
+        self.stat_image_layout.add_widget(focus_layout)
+
+        # '멘탈'에 해당하는 하트 이미지
+        mental_stat = self.ability_stat.get('멘탈', 0)
+        mental_layout = BoxLayout(orientation='horizontal', size_hint=(1, None), height=50)
+        for _ in range(mental_stat):
+            mental_layout.add_widget(Image(source='./public/image/icon/heart.png'))  # 하트 이미지 경로 설정
+        self.stat_image_layout.add_widget(mental_layout)
 
     # 텍스트 파일에서 내용을 읽어오는 함수
     def read_story_text(self, file_path):
@@ -342,7 +369,7 @@ class GameScreen(Screen):
         operator = ''.join([char for char in condition if not char.isalnum()])  # 영어 또는 한글이 아닌 특수문자인 경우만 출력 (조건문부등호)
 
         # stat 딕셔너리에서 현재 능력치를 확인
-        current_stat_value = self.stat.get(stat_name, 0)  # 키가 존재하지 않을 경우 0을 반환 (0대신 None넣어도 될듯)
+        current_stat_value = self.ability_stat.get(stat_name, 0)  # 키가 존재하지 않을 경우 0을 반환 (0대신 None넣어도 될듯)
 
         # 조건 비교
         if self.evaluate_condition(current_stat_value, stat_value, operator):
@@ -420,7 +447,7 @@ class GameScreen(Screen):
 
     # 선택지 버튼을 눌렀을 때의 동작 정의
     def on_choice(self, instance):
-
+        stat_text = ""
         if self.on_choice_able and instance.text != "":
             # 선택된 버튼에 맞는 인덱스를 찾고 해당 조정값을 가져옴
             self.select_text = instance.text
@@ -442,16 +469,25 @@ class GameScreen(Screen):
             # None일 경우 빈 리스트로 처리
             if adjustments is None:
                 adjustments = []
+            else :
+                stat_text += "[color=808080]|[/color] "
 
             # 여러 능력치 조정 처리
             for adjustment in adjustments:
                 if adjustment:
                     stat_name, stat_value, operation = adjustment
-                    if stat_name in self.stat:  # stat 딕셔너리에서 해당 능력치 확인
+                    if stat_name in self.ability_stat:  # stat 딕셔너리에서 해당 능력치 확인
                         if operation == "+":
-                            self.stat[stat_name] += stat_value
-                        elif operation == "-" and self.stat[stat_name] >= 1:
-                            self.stat[stat_name] -= stat_value
+                            self.ability_stat[stat_name] += stat_value
+                            if stat_name in ["돈", "집중도", "멘탈"] and self.ability_stat[stat_name] > 3:
+                                #["돈", "집중도", "멘탈"] 스탯이 최대 스탯인 3을 넘을 경우
+                                self.ability_stat[stat_name] = 3 #더해져도 최대치 3으로 설정
+                            elif stat_name != "성적" : #성적이 아닐 경우에는 능력치 조정 수치가 텍스트에 보임
+                                stat_text += f"[color=A5FFC9]{stat_name} {operation}{stat_value}[/color]  "
+                        elif operation == "-" and self.ability_stat[stat_name] >= 1:
+                            self.ability_stat[stat_name] -= stat_value
+                            if stat_name != "성적" :
+                                stat_text += f"[color=FFA5A5]{stat_name} {operation}{stat_value}[/color]  "
                         print(f"{stat_name} 능력치가 {operation}{stat_value}만큼 조정되었습니다.")
                     else:
                         print(f"경고: {stat_name} 능력치는 존재하지 않습니다.")
@@ -461,12 +497,13 @@ class GameScreen(Screen):
 
             # 선택한 내용을 출력 후 이어서 출력
             self.text_area.text = ""
-            self.text_area.text += f"[color=808080]{self.select_text}[/color]\n"
+            self.text_area.text += f"[color=808080]{self.select_text}[/color] {stat_text}\n"
             self.clear_choices()
             self.current_line += 1
             self.on_choice_able = False
             self.start_automatic_text()
-            print(self.stat)
+            self.update_stat_images()
+            print(self.ability_stat)
 
     def clear_choices(self):
         self.choice1.text = ""
@@ -508,13 +545,12 @@ class GameScreen(Screen):
         print("엔딩 이벤트 실행")
         self.story_lines = self.read_story_text(self.ending_branch_story()).splitlines()
         self.current_line = 0  # 새로운 파일의 첫 번째 줄부터 시작
-        print(self.stat)
         Clock.schedule_once(self.start_automatic_text, 0.5)
 
     def ending_branch_story(self):
-        if self.stat["성적"] > 90:
+        if self.ability_stat["성적"] > 90:
             return "./ending_part/hidden_end.txt"
-        elif self.stat["성적"] > 80:
+        elif self.ability_stat["성적"] > 80:
             return "./ending_part/normal_end.txt"
         else:
             return "./ending_part/bad_end.txt"

@@ -43,7 +43,7 @@ class ClickableLabel(ButtonBehavior, Label):
 
 
 class GameScreen(Screen):
-    ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3}
+    ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 1, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3}
     main = True
     on_choice_able = False
     day = 0
@@ -172,7 +172,7 @@ class GameScreen(Screen):
         self.saved_re_position = ""
         self.is_waiting_for_click = False
         self.text_area.text = ""
-        self.ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 0, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3}
+        self.ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 1, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3}
         self.update_stat_images()
         self.story_lines = self.read_story_text('start_story.txt').splitlines()
         self.start_automatic_text()
@@ -341,19 +341,17 @@ class GameScreen(Screen):
 
                 # 조건문이 포함된 경우 처리
                 if ":" in choice_text and "?" in choice_text:
-                    choice_text, adjustment = self.parse_conditional_choice(choice_text)
-                    choices.append(choice_text)
-                    adjustments.append(adjustment)  # (stat_name, stat_value, operation) 형식의 튜플이 들어감
-                else:
+                    choice_text = self.parse_conditional_choice(choice_text)
                     # 기존 방식으로 `%`나 `&` 이후의 능력치 조정 정보 추출
-                    if "%" in choice_text or "&" in choice_text:
-                        choice, adjustment = self.parse_choice_adjustment(choice_text)
-                        choices.append(choice)
-                        adjustments.append(adjustment)
-                    else:
-                        # 능력치 조정이 없는 선택지 처리
-                        choices.append(choice_text)
-                        adjustments.append(None)  # 조정 정보가 없는 경우
+                if "%" in choice_text or "&" in choice_text:
+                    choice_text = self.parse_luck_adjustment(choice_text)
+                    choice, adjustment = self.parse_choice_adjustment(choice_text)
+                    choices.append(choice)
+                    adjustments.append(adjustment)
+                else:
+                    # 능력치 조정이 없는 선택지 처리
+                    choices.append(choice_text)
+                    adjustments.append(None)  # 조정 정보가 없는 경우
             else:
                 break  # `-`로 시작하지 않으면 종료
 
@@ -393,10 +391,10 @@ class GameScreen(Screen):
         # 조건 비교
         if self.evaluate_condition(current_stat_value, stat_value, operator):
             # 조건이 참이면 main_part를 선택지 텍스트로 사용하고 조정값 추출
-            return self.extract_choice_and_adjustment(main_part)
+            return main_part
         else:
             # 조건이 거짓이면 else_part를 선택지 텍스트로 사용하고 조정값 추출
-            return self.extract_choice_and_adjustment(else_part)
+            return else_part
 
     # 텍스트 파일의 조건문에 대한 판별 함수
     def evaluate_condition(self, current_value, target_value, operator):
@@ -455,6 +453,22 @@ class GameScreen(Screen):
 
         return (stat_name, stat_value, operation)
 
+    def parse_luck_adjustment(self, choice_text):
+        # *숫자* 형식을 찾고 파싱
+        if '*' in choice_text:
+            print("운 확인 요소 진입 성공")
+            parts = choice_text.split('*')
+            print("parts=",parts)
+            luck_factor = int(parts[1])  # *숫자* 사이의 숫자
+            success_chance = luck_factor * self.ability_stat["운"]  # 성공 확률 계산
+
+
+            # 성공 여부 결정
+            if random.randint(1, 100) <= success_chance:
+                return parts[0]  # 성공 시 앞쪽 텍스트 반환
+            else:
+                return parts[2]  # 실패 시 뒤쪽 텍스트 반환
+        return choice_text  # *숫자*가 없으면 그대로 반환
     # 텍스트 영역을 클릭하면 다음 텍스트 출력 시작
     def on_click_next_text(self, *args):
         print("is_waiting_for_click : ", self.is_waiting_for_click)

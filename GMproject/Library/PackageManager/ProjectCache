@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638655114034856889
-    m_Hash: 2862989729
+      ticks: 638662447907691398
+    m_Hash: 1626759188
   m_LockFileStatus:
     m_FilePath: "C:/Users/PC/Desktop/\uC624\uD508\uC18C\uC2A4\uAC8C\uC784/GMproject/Packages/packages-lock.json"
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638655114034889276
-    m_Hash: 4171325425
+      ticks: 638662447907701408
+    m_Hash: 1610904463
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
@@ -754,9 +754,11 @@ m_ResolvedPackages:
     - 1.9.1
     - 1.9.2
     - 1.9.4
+    - 1.9.5
     compatible:
     - 1.9.4
-    recommended: 1.9.4
+    - 1.9.5
+    recommended: 1.9.5
     deprecated:
     - 1.8.0-pre.1
   dependencies:

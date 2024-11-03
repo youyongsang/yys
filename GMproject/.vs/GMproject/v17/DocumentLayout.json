@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Key_Wall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Key_Wall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_heart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Item\\Item_heart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerStat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Player\\PlayerStat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Obstacle_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Player\\PlayerDisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Key_Wall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Key_Wall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Obstacle_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,11 +30,24 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "Item_heart.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_heart.cs",
+              "RelativeDocumentMoniker": "Assets\\1Script\\Item\\Item_heart.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_heart.cs",
+              "RelativeToolTip": "Assets\\1Script\\Item\\Item_heart.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABcAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-03T16:07:14.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "Obstacle_trap.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_trap.cs",
               "RelativeDocumentMoniker": "Assets\\1Script\\Obstacle\\Obstacle_trap.cs",
@@ -38,12 +55,11 @@
               "RelativeToolTip": "Assets\\1Script\\Obstacle\\Obstacle_trap.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAAB0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-26T05:09:57.952Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-26T05:09:57.952Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "Key_Wall.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Key_Wall.cs",
               "RelativeDocumentMoniker": "Assets\\1Script\\Obstacle\\Key_Wall.cs",
@@ -56,13 +72,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "PlayerDisplay.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs",
               "RelativeDocumentMoniker": "Assets\\1Script\\Player\\PlayerDisplay.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs",
               "RelativeToolTip": "Assets\\1Script\\Player\\PlayerDisplay.cs",
-              "ViewState": "AgIAAFgAAAAAAAAAAAAAAG4AAAAjAAAAAAAAAA==",
+              "ViewState": "AgIAAEUAAAAAAAAAAADwv24AAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-26T03:35:16.541Z",
               "EditorCaption": ""
@@ -75,7 +91,7 @@
               "RelativeDocumentMoniker": "Assets\\1Script\\Player\\PlayerStat.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerStat.cs",
               "RelativeToolTip": "Assets\\1Script\\Player\\PlayerStat.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-10-26T03:24:37.085Z",
               "EditorCaption": ""

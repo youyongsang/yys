@@ -23,7 +23,7 @@ public class Slow_trap : MonoBehaviour
             playerMovement.moveSpeed = movespeed * 0.1f;
 
             // 상태 이상 효과를 딕셔너리에 추가 (slow: 3초 지속)
-            statusEffectDisplay.statusEffects["slow"] = 3.0f;
+            statusEffectDisplay.SetStatusEffect("Slow", 3.0f);
 
             StartCoroutine(Speed(movespeed));
             OnCo = false;

@@ -15,11 +15,11 @@ public class Test_stat_grant : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            statusEffectDisplay.statusEffects["dotDamage"] = 3.0f;
+   
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            statusEffectDisplay.statusEffects["slow"] = 3.0f;
+        
         }
     }
 }

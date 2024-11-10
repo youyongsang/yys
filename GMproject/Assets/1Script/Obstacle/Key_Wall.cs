@@ -19,9 +19,11 @@ public class Key_Wall : MonoBehaviour
     void OnCollisionStay(Collision collision)
     {
         PlayerStat Playerstat = collision.gameObject.GetComponent<PlayerStat>();
-        if (Input.GetKeyDown(KeyCode.Z))
+        Debug.Log("aa");
+        if (Input.GetKey(KeyCode.Z))
         {
-            if(Playerstat.item_Key >= 1)
+            Debug.Log("gkgk");
+            if (Playerstat.item_Key >= 1)
             {
                 Playerstat.item_Key--;
                 Destroy(this.gameObject);

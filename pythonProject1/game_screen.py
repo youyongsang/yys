@@ -43,7 +43,7 @@ class ClickableLabel(ButtonBehavior, Label):
 
 
 class GameScreen(Screen):
-    ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 1, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3}
+    ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 1, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3, "sw" : 0}
     main = True
     on_choice_able = False
     day = 0
@@ -174,7 +174,7 @@ class GameScreen(Screen):
         self.saved_re_position = ""
         self.is_waiting_for_click = False
         self.text_area.text = ""
-        self.ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 1, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3}
+        self.ability_stat = {"컴퓨터기술": 0, "체력": 0, "운": 1, "허기": 0, "지능": 0, "타자": 0, "속독": 0, "성적": 100, "돈": 3, "집중도": 3, "멘탈": 3, "sw" : 0}
         self.update_stat_images()
         self.story_lines = self.read_story_text('start_story.txt').splitlines()
         self.start_automatic_text()
@@ -254,40 +254,42 @@ class GameScreen(Screen):
 
     # 자동으로 텍스트를 출력하는 함수 이벤트 분기 확인
     def start_automatic_text(self, dt=None):
-        if self.current_line < len(self.story_lines):  # 전체 내용 탐색
+        while self.current_line < len(self.story_lines):  # 전체 내용 탐색
             line = self.story_lines[self.current_line].strip()  # 한 줄씩 입력받음
 
             print(self.file_name, self.current_line, line)
             if self.reaction_part:  # 리액션 파트에 돌입했을 경우
                 if line.startswith("#") and line == self.reaction_line:  # 내가 원하는 리액션 파트 진입
                     print("내가 원하는 리액션 파트 진입 성공")
-
                     self.flag = True  # 텍스트 출력 활성화
                     self.current_line += 1  # 다음 줄 탐색
                     line = self.story_lines[self.current_line].strip()
-                elif not (self.flag):  # 내가 원하는 리액션 파트가 아닌 경우
+                elif not self.flag:  # 내가 원하는 리액션 파트가 아닌 경우
                     self.current_line += 1  # 다음 줄 탐색
-                    Clock.schedule_once(self.start_automatic_text, 0.00001)
+                    continue  # 다음 줄을 즉시 탐색
             if self.flag:
                 if line == "":  # 빈 줄일 경우 클릭 대기
                     print("빈줄 실행")
                     self.is_waiting_for_click = True  # True일 경우 텍스트 화면 클릭시 다음 줄 텍스트가 출력됨
+                    return
                 elif line.startswith("-"):  # 선택지 항목이면 버튼 텍스트로 설정하고 넘김
                     self.is_waiting_for_click = False
                     self.on_choice_able = True
                     self.set_choices_from_story(self.current_line)
-                elif line.startswith("#") and not self.reaction_part:  # 첫 번째 글자가 #일때 리액션 파트는 아닐 경우
+                    return
+                elif line.startswith("#") and not self.reaction_part:  # 첫 번째 글자가 #일 때, 리액션 파트가 아닐 경우
                     print("랜덤 이벤트 OR 리액션 파트 진입 성공")
                     self.main = False
                     self.reaction_line = line
                     self.load_alternate_story(self.current_line + 1, line)  # 세이브 텍스트 라인 설정 후 이벤트 스토리 or 리액션 파트 진입
-                elif (line.startswith("#") and line != self.reaction_line) or line == "pass": # 해당 리액션 파트 출력이 끝났을 경우
+                    return
+                elif (line.startswith("#") and line != self.reaction_line) or line == "pass":  # 리액션 파트 종료 시
                     print("리액션 파트 종료")
-
                     self.reaction_part = False
                     self.story_lines = self.read_story_text(self.save_file_name).splitlines()  # 이전 스토리 파일 호출
                     self.current_line = self.saved_re_position + 1  # 저장된 위치로 돌아감
                     Clock.schedule_once(self.start_automatic_text, 0.5)
+                    return
                 else:
                     # 일반 텍스트는 출력 (한 줄씩)
                     self.text_area.text += line + "\n"
@@ -295,44 +297,46 @@ class GameScreen(Screen):
 
                     # 다음 줄을 0.5초 후에 출력
                     Clock.schedule_once(self.start_automatic_text, 0.5)
-        elif self.reaction_part:  # 리액션 텍스트에서 출력을 모두 마쳤을 경우 -> 기존 텍스트 파일로 돌아가야함
+                    return
+        # 리액션 파트에서 모든 텍스트를 출력한 후 기존 파일로 복귀
+        if self.reaction_part:
             print("리액션 파트 종료")
             self.story_lines = self.read_story_text(self.save_file_name).splitlines()  # 기존 텍스트 파일 호출
             self.current_line = self.saved_re_position + 1  # 저장된 위치로 돌아감
             self.reaction_part = False
             Clock.schedule_once(self.start_automatic_text, 0.5)
-        elif (self.start):  # 종료 텍스트 파일이 start스토리인 경우. 1회 실행
+        elif self.start:  # 종료 텍스트 파일이 start_story인 경우. 1회 실행
             self.story_lines = self.read_story_text('main_story.txt').splitlines()
             self.current_line = 0
             self.start = False
             self.day += 1
             self.text_area.text += f"{self.day}일차입니다.\n"
             Clock.schedule_once(self.start_automatic_text, 0.5)
-        elif self.event:  #이벤트 스토리에서 종료 됐을 시
+        elif self.event:  # 이벤트 스토리에서 종료 됐을 시
             print("이벤트 스토리 종료 메인 스토리 위치로 돌아갑니다.")
             self.story_lines = self.read_story_text('main_story.txt').splitlines()  # 메인 스토리 호출
             self.current_line = self.saved_position + 1  # 저장된 위치로 돌아감
             Clock.schedule_once(self.start_automatic_text, 0.5)
             self.event = False
             self.main = True
-        elif (self.day == 2):  # 메인 스토리 루트가 3주차 진입 시
+        elif self.day == 2:  # 메인 스토리 루트가 3주차 진입 시
             self.day += 1
             self.story_lines = self.read_story_text('middle_story.txt').splitlines()
             self.current_line = 0
             Clock.schedule_once(self.start_automatic_text, 0.5)
-        elif (self.day <= 3):  # 메인 스토리 루틴
+        elif self.day <= 3:  # 메인 스토리 루틴
             print("메인스토리 루트 진행")
             self.story_lines = self.read_story_text('main_story.txt').splitlines()
             self.current_line = 0
             self.day += 1
             self.text_area.text += f"{self.day}일차입니다.\n"
             Clock.schedule_once(self.start_automatic_text, 0.5)
-        elif (self.day == 4):
+        elif self.day == 4:
             self.story_lines = self.read_story_text('end_story.txt').splitlines()
             self.current_line = 0
             self.day += 1
             Clock.schedule_once(self.start_automatic_text, 0.5)
-        elif (self.day == 5):
+        elif self.day == 5:
             self.day += 1
             self.load_ending_branch()
         else:
@@ -441,7 +445,7 @@ class GameScreen(Screen):
             return current_value >= target_value
         elif operator == "<=":
             return current_value <= target_value
-        elif operator == "=":
+        elif operator == "==":
             return current_value == target_value
         elif operator == ">":
             return current_value > target_value
@@ -468,7 +472,7 @@ class GameScreen(Screen):
         choice_part = re.split("[%&]", choice_text)[0].strip()
 
         # 조정치 부분만 추출하기 (%, & 기준으로 split)
-        adjustment_parts = re.findall(r'[%&][가-힣0-9]+', choice_text)
+        adjustment_parts = re.findall(r'[%&][가-힣A-Za-z0-9]+', choice_text)
         # %나 &로 시작하는 단어들 구분 추출 ex &지능1%속독1인경우 &나 %을 기준으로 나눠져서 ['&지능1','%속독1']이 된다.
 
         for part in adjustment_parts:
@@ -631,7 +635,7 @@ class GameScreen(Screen):
         #sub_event_list = ["a.txt", "b.txt", "c.txt", "d.txt", "e.txt"]
         num = random.randint(0, 4)
         print("진입확인", num)
-        return "./event_story/" + "b.txt"
+        return "./event_story/" + "c.txt"
 
     def reaction_text(self):
         # 선택된 버튼의 reaction_number를 기준으로 텍스트 파일을 선택

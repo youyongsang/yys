@@ -1,118 +1,157 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq; // 이 줄을 추가
 using UnityEngine;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class StatusEffectPrefab
+public class StatusEffect
 {
-    public string effectName;       // 상태 이름 (예: "slow")
-    public GameObject prefab;       // 상태 아이콘 프리팹
+    public string name;       // 상태 이상 이름
+    public Sprite icon;       // 상태 이상 아이콘
 }
 
 public class StatusEffectDisplay : MonoBehaviour
 {
-    public List<StatusEffectPrefab> statusEffectPrefabsList; // Inspector에서 설정할 상태 효과 프리팹 리스트
-    private Dictionary<string, GameObject> statusIconPrefabs; // 내부에서 사용하는 Dictionary
+    public GameObject panel;                      // 상태 이상 이미지를 표시할 패널
+    public List<StatusEffect> statusEffects;      // 상태 이상 이름 및 아이콘을 인스펙터에서 설정
+    public int iconSize = 32;                     // 아이콘 기본 크기
 
-    public Dictionary<string, float> statusEffects = new Dictionary<string, float>()
-    {
-        {"slow", 0f},
-        {"dotDamage", 0f}
-    };
+    public Dictionary<string, float> statusTimers = new Dictionary<string, float>(); // 상태 이상 이름과 지속 시간
+    private Dictionary<string, Image> statusImages = new Dictionary<string, Image>(); // 상태 이상 이름과 이미지 컴포넌트
+    private RectTransform panelRectTransform;      // 패널의 RectTransform 참조
 
-    public Transform statusEffectPanel; // 상태 이상 이미지를 표시할 UI 패널
-    private List<GameObject> activeIcons = new List<GameObject>(); // 현재 활성화된 상태 이상 이미지들
-
-    // Start 메서드에서 List 데이터를 Dictionary로 변환
     void Start()
     {
-        // List를 Dictionary로 변환하여 상태 이름으로 프리팹을 쉽게 찾을 수 있게 함
-        statusIconPrefabs = new Dictionary<string, GameObject>();
-        foreach (var item in statusEffectPrefabsList)
+        if (panel == null)
         {
-            if (!statusIconPrefabs.ContainsKey(item.effectName))
-            {
-                statusIconPrefabs.Add(item.effectName, item.prefab);
-            }
-        }
-    }
-
-    // 상태 이상 이미지 업데이트 함수
-    void Update()
-    {
-        List<string> effectsToRemove = new List<string>();
-
-        foreach (var effect in statusEffects)
-        {
-            if (effect.Value > 0)
-            {
-                UpdateStatusEffectIcon(effect.Key, effect.Value);
-                statusEffects[effect.Key] -= Time.deltaTime;
-            }
-            else
-            {
-                effectsToRemove.Add(effect.Key);
-            }
-        }
-
-        foreach (var effectName in effectsToRemove)
-        {
-            RemoveStatusEffectIcon(effectName);
-        }
-
-        RearrangeIcons();
-    }
-
-    // 상태 이상 이미지를 활성화하거나 갱신하는 함수
-    void UpdateStatusEffectIcon(string effectName, float duration)
-    {
-        // 상태 이름에 맞는 프리팹이 있는지 확인
-        if (!statusIconPrefabs.ContainsKey(effectName))
-        {
-            Debug.LogWarning("No icon prefab found for effect: " + effectName);
+            Debug.LogError("패널이 할당되지 않았습니다!");
             return;
         }
 
-        // 기존에 존재하는 아이콘이 없다면 새로운 아이콘 생성
-        if (!activeIcons.Exists(icon => icon.name == effectName))
+        foreach (StatusEffect effect in statusEffects)
         {
-            GameObject newIcon = Instantiate(statusIconPrefabs[effectName], statusEffectPanel);
-            newIcon.name = effectName;
-            activeIcons.Add(newIcon);
+            Debug.Log($"Adding status effect: {effect.name}");
+            statusTimers[effect.name] = 0f;
         }
 
-        // 아이콘의 이미지와 회전 시계방향으로 설정
-        GameObject iconObject = activeIcons.Find(icon => icon.name == effectName);
-        if (iconObject != null)
+        panelRectTransform = panel.GetComponent<RectTransform>();
+        UpdatePanelSize();
+    }
+
+    void Update()
+    {
+        // 상태 이상 지속 시간을 순회하며 갱신
+        List<string> expiredEffects = new List<string>();
+        var keys = statusTimers.Keys.ToList(); // ToList() 한 번만 호출
+        
+        foreach (var effectName in keys)
         {
-            Image iconImage = iconObject.GetComponent<Image>();
-            if (iconImage != null)
+            if (statusTimers.ContainsKey(effectName) && statusTimers[effectName] > 0)
             {
-                iconImage.fillAmount = duration / 3.0f;
+                statusTimers[effectName] -= Time.deltaTime;
+
+                if (!statusImages.ContainsKey(effectName))
+                {
+                    CreateStatusIcon(effectName);
+                }
+
+                // 아이콘의 사라지는 애니메이션 (시계방향으로 감소)
+                if (statusImages.ContainsKey(effectName))
+                {
+                    Debug.Log("if (statusImages.ContainsKey(effectName)) 진입확인");
+                    UpdateStatusIcon(statusImages[effectName], statusTimers[effectName]);
+                }
+            }
+
+            // 지속 시간이 0 이하가 되면 제거할 항목에 추가
+            if (statusTimers.ContainsKey(effectName) && statusTimers[effectName] <= 0)
+            {
+                expiredEffects.Add(effectName);
             }
         }
+
+        // 만료된 상태 이상 제거
+        foreach (var effectName in expiredEffects)
+        {
+            if (statusImages.ContainsKey(effectName))
+            {
+                Destroy(statusImages[effectName].gameObject);
+                statusImages.Remove(effectName);
+            }
+            if (statusTimers.ContainsKey(effectName))
+            {
+                statusTimers.Remove(effectName); // 딕셔너리에서 상태이상 삭제
+            }
+        }
+
+        // 상태 이상 아이콘 재정렬
+        ReorderIcons();
+    }
+    private Dictionary<string, float> statusMaxTimers = new Dictionary<string, float>(); // 초기 최대 지속 시간
+    public void SetStatusEffect(string effectName, float duration)
+    {
+        if (statusTimers.ContainsKey(effectName))
+        {
+            statusTimers[effectName] = duration;
+            if (!statusMaxTimers.ContainsKey(effectName))
+            {
+                statusMaxTimers[effectName] = duration; // 초기 지속 시간 저장
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"Status effect '{effectName}' not found!");
+        }
     }
 
-    // 상태 이상 이미지 삭제 함수
-    void RemoveStatusEffectIcon(string effectName)
+    private void CreateStatusIcon(string effectName)
     {
-        GameObject iconObject = activeIcons.Find(icon => icon.name == effectName);
-        if (iconObject != null)
-        {
-            Destroy(iconObject);
-            activeIcons.Remove(iconObject);
-        }
-        statusEffects[effectName] = 0;
+        StatusEffect effect = statusEffects.Find(e => e.name == effectName);
+        if (effect == null || effect.icon == null) return;
+
+        GameObject iconObject = new GameObject(effectName, typeof(Image));
+        iconObject.transform.SetParent(panel.transform, false);
+
+        Image iconImage = iconObject.GetComponent<Image>();
+        iconImage.sprite = effect.icon;
+        iconImage.rectTransform.sizeDelta = new Vector2(iconSize, iconSize);
+        iconImage.rectTransform.pivot = new Vector2(0, 1);
+
+        statusImages[effectName] = iconImage;
+
+        UpdatePanelSize();
     }
 
-    // 모든 아이콘들을 앞으로 당겨 재배치
-    void RearrangeIcons()
+    private void UpdateStatusIcon(Image iconImage, float remainingTime)
     {
-        for (int i = 0; i < activeIcons.Count; i++)
+        if (statusTimers.ContainsKey(iconImage.name) && statusMaxTimers.ContainsKey(iconImage.name))
         {
-            RectTransform iconTransform = activeIcons[i].GetComponent<RectTransform>();
-            iconTransform.anchoredPosition = new Vector2(-i * 50, 0); // 좌측으로 배치
+            float maxTime = statusMaxTimers[iconImage.name]; // 초기 최대 시간 참조
+            float percentage = Mathf.Clamp01(remainingTime / maxTime);
+            Debug.Log(percentage);
+            iconImage.fillMethod = Image.FillMethod.Radial360; // Radial360 방식으로 설정
+            iconImage.fillClockwise = true;                    // 시계방향으로 감소
+            iconImage.fillOrigin = (int)Image.Origin360.Top;    // 위쪽에서 시작
+            iconImage.fillAmount = percentage;                 // fillAmount 설정
+
+            Debug.Log($"Effect: {iconImage.name}, Percentage: {percentage}");
         }
+    }
+
+    private void ReorderIcons()
+    {
+        int index = 0;
+        foreach (var icon in statusImages.Values)
+        {
+            icon.rectTransform.anchoredPosition = new Vector2(index * iconSize, 0);
+            index++;
+        }
+    }
+
+    private void UpdatePanelSize()
+    {
+        int activeEffects = statusImages.Count;
+        panelRectTransform.sizeDelta = new Vector2(activeEffects * iconSize, panelRectTransform.sizeDelta.y);
     }
 }

@@ -9,7 +9,7 @@ public class PlayerDisplay : MonoBehaviour
     public Sprite heartSprite;
     public Sprite keySprite;
     public Font customFont; // 사용할 폰트를 Inspector에서 지정할 수 있도록 변수 추가
-    public Vector2 startPosition = new Vector2(10, 10);
+    public Vector2 startPosition = new Vector2(0, 10);
     public float iconSpacing = 35f;
     public Vector2 keyPosition = new Vector2(-70, 10);
 

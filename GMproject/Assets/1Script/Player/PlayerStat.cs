@@ -6,6 +6,8 @@ public class PlayerStat : MonoBehaviour
 {
     public int lives;
     public int item_Key;
+    public int shield;
+    public int score = 0;
     // Start is called before the first frame update
     void Awake()
     {

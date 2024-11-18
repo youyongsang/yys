@@ -38,7 +38,14 @@ public class Obstacle_trap : MonoBehaviour
                 if (pushDirection != Vector3.zero)
                 {
                     Debug.Log("진입확인");
-                    Playerstat.lives -= 1;
+                    if (Playerstat.shield >= 1)
+                    {
+                        Playerstat.shield -= 1;
+                    }
+                    else
+                    {
+                        Playerstat.lives -= 1;
+                    }
                     playerRb.AddForce(pushDirection * 15f, ForceMode.Impulse);
                     //collision.transform.Translate(pushDirection * 15f);
                     

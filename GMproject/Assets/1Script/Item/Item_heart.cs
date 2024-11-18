@@ -19,7 +19,7 @@ public class Item_heart : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         PlayerStat playerstat = other.gameObject.GetComponent<PlayerStat>();
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Input.GetKey(KeyCode.Z))
         {
             playerstat.lives++;
             Destroy(this.gameObject);

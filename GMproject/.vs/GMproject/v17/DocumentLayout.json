@@ -3,12 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Player\\PlayerDisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Poison_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Poison_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Obstacle_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Slow_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Slow_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\StatusEffectDisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Player\\StatusEffectDisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerStat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Player\\PlayerStat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_heart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Item\\Item_heart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_dark.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Obstacle_dark.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Slow_space.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Slow_space.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerMovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Player\\PlayerMovement.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_shield.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Item\\Item_shield.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Test_stat_grant.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -17,22 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Key_Wall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Key_Wall.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Player\\PlayerDisplay.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_heart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Item\\Item_heart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Obstacle\\Obstacle_trap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerStat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\1Script\\Player\\PlayerStat.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -42,45 +58,97 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Poison_trap.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Poison_trap.cs",
+              "RelativeDocumentMoniker": "Assets\\1Script\\Obstacle\\Poison_trap.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Poison_trap.cs",
+              "RelativeToolTip": "Assets\\1Script\\Obstacle\\Poison_trap.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T11:35:42.94Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "PlayerDisplay.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs",
+              "RelativeDocumentMoniker": "Assets\\1Script\\Player\\PlayerDisplay.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs",
+              "RelativeToolTip": "Assets\\1Script\\Player\\PlayerDisplay.cs",
+              "ViewState": "AgIAAJwAAAAAAAAAAADwv8UAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-26T03:35:16.541Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "PlayerMovement.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerMovement.cs",
+              "RelativeDocumentMoniker": "Assets\\1Script\\Player\\PlayerMovement.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerMovement.cs",
+              "RelativeToolTip": "Assets\\1Script\\Player\\PlayerMovement.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T07:58:16.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Slow_space.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Slow_space.cs",
+              "RelativeDocumentMoniker": "Assets\\1Script\\Obstacle\\Slow_space.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Slow_space.cs",
+              "RelativeToolTip": "Assets\\1Script\\Obstacle\\Slow_space.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-15T07:53:52.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "Slow_trap.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Slow_trap.cs",
               "RelativeDocumentMoniker": "Assets\\1Script\\Obstacle\\Slow_trap.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Slow_trap.cs",
               "RelativeToolTip": "Assets\\1Script\\Obstacle\\Slow_trap.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAAAyAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-11-04T01:07:54.317Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Test_stat_grant.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Test_stat_grant.cs",
-              "RelativeDocumentMoniker": "Assets\\1Script\\Test_stat_grant.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Test_stat_grant.cs",
-              "RelativeToolTip": "Assets\\1Script\\Test_stat_grant.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAIAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "Obstacle_dark.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_dark.cs",
+              "RelativeDocumentMoniker": "Assets\\1Script\\Obstacle\\Obstacle_dark.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_dark.cs",
+              "RelativeToolTip": "Assets\\1Script\\Obstacle\\Obstacle_dark.cs",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T01:04:29.301Z",
+              "WhenOpened": "2024-11-15T07:34:46.44Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "StatusEffectDisplay.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\StatusEffectDisplay.cs",
-              "RelativeDocumentMoniker": "Assets\\1Script\\Player\\StatusEffectDisplay.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\StatusEffectDisplay.cs",
-              "RelativeToolTip": "Assets\\1Script\\Player\\StatusEffectDisplay.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAADwvycAAAAFAAAAAAAAAA==",
+              "DocumentIndex": 9,
+              "Title": "Item_shield.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_shield.cs",
+              "RelativeDocumentMoniker": "Assets\\1Script\\Item\\Item_shield.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_shield.cs",
+              "RelativeToolTip": "Assets\\1Script\\Item\\Item_shield.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-04T00:24:29.425Z",
+              "WhenOpened": "2024-11-15T07:20:00.936Z",
               "EditorCaption": ""
             },
             {
@@ -91,25 +159,27 @@
               "RelativeDocumentMoniker": "Assets\\1Script\\Item\\Item_heart.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Item\\Item_heart.cs",
               "RelativeToolTip": "Assets\\1Script\\Item\\Item_heart.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABQAAABMAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-03T16:07:14.269Z"
+              "WhenOpened": "2024-11-03T16:07:14.269Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
               "Title": "Obstacle_trap.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_trap.cs",
               "RelativeDocumentMoniker": "Assets\\1Script\\Obstacle\\Obstacle_trap.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Obstacle_trap.cs",
               "RelativeToolTip": "Assets\\1Script\\Obstacle\\Obstacle_trap.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAB0AAAAMAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAB0AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-26T05:09:57.952Z"
+              "WhenOpened": "2024-10-26T05:09:57.952Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 11,
               "Title": "Key_Wall.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Obstacle\\Key_Wall.cs",
               "RelativeDocumentMoniker": "Assets\\1Script\\Obstacle\\Key_Wall.cs",
@@ -117,33 +187,32 @@
               "RelativeToolTip": "Assets\\1Script\\Obstacle\\Key_Wall.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-26T05:08:59.225Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-26T05:08:59.225Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "PlayerDisplay.cs",
-              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs",
-              "RelativeDocumentMoniker": "Assets\\1Script\\Player\\PlayerDisplay.cs",
-              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerDisplay.cs",
-              "RelativeToolTip": "Assets\\1Script\\Player\\PlayerDisplay.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAADwvwsAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-26T03:35:16.541Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
               "Title": "PlayerStat.cs",
               "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerStat.cs",
               "RelativeDocumentMoniker": "Assets\\1Script\\Player\\PlayerStat.cs",
               "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Player\\PlayerStat.cs",
               "RelativeToolTip": "Assets\\1Script\\Player\\PlayerStat.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAUAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-26T03:24:37.085Z"
+              "WhenOpened": "2024-10-26T03:24:37.085Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Test_stat_grant.cs",
+              "DocumentMoniker": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Test_stat_grant.cs",
+              "RelativeDocumentMoniker": "Assets\\1Script\\Test_stat_grant.cs",
+              "ToolTip": "C:\\Users\\PC\\Desktop\\\uC624\uD508\uC18C\uC2A4\uAC8C\uC784\\GMproject\\Assets\\1Script\\Test_stat_grant.cs",
+              "RelativeToolTip": "Assets\\1Script\\Test_stat_grant.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-04T01:04:29.301Z"
             }
           ]
         }

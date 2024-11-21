@@ -118,3 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b2931bc732f1a5499a5781160af5124, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poisonSound: {fileID: 8300000, guid: c19063286a38dfc42a74158bb69e1053, type: 3}

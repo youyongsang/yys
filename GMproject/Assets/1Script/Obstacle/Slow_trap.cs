@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class Slow_trap : MonoBehaviour
 {
+    public AudioClip slowSound; // 동전 사운드 클립
+    private AudioSource audioSource; // AudioSource 컴포넌트
     PlayerMovement playerMovement = null;
     bool OnCo = true;
 
     void Start()
     {
+        // AudioSource 컴포넌트 추가 및 설정
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false; // 자동 재생 비활성화
+        audioSource.clip = slowSound; // 동전 사운드 클립 연결
 
     }
 

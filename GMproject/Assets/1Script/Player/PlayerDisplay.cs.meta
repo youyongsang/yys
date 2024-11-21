@@ -3,7 +3,14 @@ guid: 6453c0adb1214f0408d3bc5e07d56c04
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - player: {instanceID: 0}
+  - heartSprite: {instanceID: 0}
+  - poisonHeartSprite: {instanceID: 0}
+  - shieldSprite: {instanceID: 0}
+  - keySprite: {instanceID: 0}
+  - customFont: {instanceID: 0}
+  - shieldDecreaseSound: {fileID: 8300000, guid: 408026dddc5697b4b8619e15b92ffa1f, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -8,6 +8,18 @@ public class UpdraftBlock : MonoBehaviour
     public float maxLiftSpeed = 50f; // 최대 상승 속도 제한
     public float decelerationRate = 5f; // 블럭을 벗어난 후 감속 속도
 
+    public AudioClip updraftSound; // 점프대 효과음
+    private AudioSource audioSource; // AudioSource 컴포넌트
+
+    private void Start()
+    {
+        // AudioSource 컴포넌트 추가 및 초기화
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = updraftSound;
+        audioSource.loop = true; // 점프대에 있는 동안 반복 재생
+        audioSource.playOnAwake = false; // 자동 재생 비활성화
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -24,6 +36,12 @@ public class UpdraftBlock : MonoBehaviour
                     playerRigidbody.AddForce(upwardForce, ForceMode.Acceleration);
                 }
             }
+
+            // 효과음 재생 (이미 재생 중이 아니라면)
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
         }
     }
 
@@ -36,6 +54,12 @@ public class UpdraftBlock : MonoBehaviour
             {
                 // 상승 속도를 점진적으로 줄이도록 감속 처리
                 StartCoroutine(SlowDown(playerRigidbody));
+            }
+
+            // 효과음 정지
+            if (audioSource.isPlaying)
+            {
+                audioSource.Stop();
             }
         }
     }
@@ -53,4 +77,3 @@ public class UpdraftBlock : MonoBehaviour
         }
     }
 }
-

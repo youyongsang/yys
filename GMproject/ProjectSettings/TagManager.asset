@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Plan
   - Key
+  - score500
   layers:
   - Default
   - TransparentFX

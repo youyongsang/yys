@@ -16,6 +16,9 @@ public class PlayerDisplay : MonoBehaviour
     public Vector2 keyPosition = new Vector2(-70, 10);
     public Vector2 shieldPositionOffset = new Vector2(0, -40);
 
+    public AudioClip shieldDecreaseSound; // 실드 감소 효과음
+    private AudioSource audioSource; // AudioSource 컴포넌트
+
     private int playerLives;
     private List<Image> lifeImages = new List<Image>();
     private RectTransform canvasTransform;
@@ -52,6 +55,10 @@ public class PlayerDisplay : MonoBehaviour
         playerShield = playerstat.shield;
 
         canvasTransform = GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+
+        // AudioSource 컴포넌트 추가
+        audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.playOnAwake = false;
 
         // 점수 텍스트 생성
         CreateScoreText();
@@ -93,6 +100,14 @@ public class PlayerDisplay : MonoBehaviour
         int currentShield = playerStat.shield;
         if (currentShield != playerShield)
         {
+            // 실드 감소 시 효과음 재생
+            if (currentShield < playerShield && shieldDecreaseSound != null)
+            {
+                Debug.Log("쉴드 감소효과음 발생");
+                audioSource.clip = shieldDecreaseSound;
+                audioSource.Play();
+            }
+
             UpdateShieldIcons(currentShield);
             playerShield = currentShield;
         }

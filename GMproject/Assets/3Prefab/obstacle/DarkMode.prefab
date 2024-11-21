@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2299969722521639569}
   - component: {fileID: 1386190960919216245}
   - component: {fileID: 7984176456832150453}
+  - component: {fileID: 559628311644516704}
   m_Layer: 0
   m_Name: DarkMode
   m_TagString: Untagged
@@ -133,3 +134,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &559628311644516704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6329837377207305444}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e79e25bb40f077f4d97936b1bb8fa6d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainLight: {fileID: 8062683303131046174, guid: 3c81939625291ba4d8d2d25aba95b7bd, type: 3}
+  pointLightPrefab: {fileID: 6088408810611097673, guid: e3097459b2bedb542b67bc6269ea763c, type: 3}
+  darkSound: {fileID: 8300000, guid: c60bc1e5225c835479de59bfdde25118, type: 3}
+  restoreSound: {fileID: 8300000, guid: 1948918450147b6479aaca7c73e5197d, type: 3}
+  fadeDuration: 2
